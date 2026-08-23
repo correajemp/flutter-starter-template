@@ -14,8 +14,7 @@ platform :android do
     firebase_app_distribution(
       app: ENV["FIREBASE_APP_ID_ANDROID_STG"],
       apk_path: "../build/app/outputs/flutter-apk/app-stg-release.apk",
-      release_notes: "New staging build from Fastlane",
-      groups: "testers"
+      release_notes_file: "../change_logs.txt",
     )
   end
 
@@ -30,8 +29,7 @@ platform :android do
     firebase_app_distribution(
       app: ENV["FIREBASE_APP_ID_ANDROID_PROD"],
       apk_path: "../build/app/outputs/flutter-apk/app-prod-release.apk",
-      release_notes: "New production build from Fastlane",
-      groups: "testers"
+      release_notes_file: "../change_logs.txt",
     )
   end
 end
