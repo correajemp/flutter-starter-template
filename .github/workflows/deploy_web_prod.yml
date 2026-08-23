@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   deploy-web-prod:
-    if: github.event.pull_request.merged == true && startsWith(github.head_ref, 'v') && endsWith(github.head_ref, '-prod-release')
+    if: github.event.pull_request.merged == true && startsWith(github.head_ref, 'v') && endsWith(github.head_ref, '-web-prod-release')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
@@ -20,8 +20,15 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          channel: 'stable'
+          channel: "stable"
           cache: true
+
+      - name: Create Firebase Options
+        env:
+          FIREBASE_OPTIONS_DART: ${{ secrets.FIREBASE_OPTIONS_DART }}
+        run: |
+          mkdir -p lib/core/firebase
+          echo "$FIREBASE_OPTIONS_DART" > lib/core/firebase/firebase_options.dart
 
       - name: Create Placeholder Env Files
         run: |

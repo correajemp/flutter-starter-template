@@ -8,7 +8,7 @@ on:
 
 jobs:
   deploy-android-stg:
-    if: github.event.pull_request.merged == true && startsWith(github.head_ref, 'v') && endsWith(github.head_ref, '-stg-release')
+    if: github.event.pull_request.merged == true && startsWith(github.head_ref, 'v') && endsWith(github.head_ref, '-mobile-stg-release')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
@@ -17,19 +17,26 @@ jobs:
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
-          java-version: '17'
+          distribution: "temurin"
+          java-version: "17"
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          channel: 'stable'
+          channel: "stable"
           cache: true
+
+      - name: Create Firebase Options
+        env:
+          FIREBASE_OPTIONS_DART: ${{ secrets.FIREBASE_OPTIONS_DART }}
+        run: |
+          mkdir -p lib/core/firebase
+          echo "$FIREBASE_OPTIONS_DART" > lib/core/firebase/firebase_options.dart
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.2'
+          ruby-version: "3.2"
           bundler-cache: true
           working-directory: android
 
@@ -50,7 +57,7 @@ jobs:
           bundle exec fastlane distribute_stg
 
   deploy-ios-stg:
-    if: github.event.pull_request.merged == true && startsWith(github.head_ref, 'v') && endsWith(github.head_ref, '-stg-release')
+    if: github.event.pull_request.merged == true && startsWith(github.head_ref, 'v') && endsWith(github.head_ref, '-mobile-stg-release')
     runs-on: macos-14
     steps:
       - name: Checkout Code
@@ -59,13 +66,20 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          channel: 'stable'
+          channel: "stable"
           cache: true
+
+      - name: Create Firebase Options
+        env:
+          FIREBASE_OPTIONS_DART: ${{ secrets.FIREBASE_OPTIONS_DART }}
+        run: |
+          mkdir -p lib/core/firebase
+          echo "$FIREBASE_OPTIONS_DART" > lib/core/firebase/firebase_options.dart
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.2'
+          ruby-version: "3.2"
           bundler-cache: true
           working-directory: ios
 
