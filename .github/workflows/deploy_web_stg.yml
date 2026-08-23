@@ -1,0 +1,46 @@
+name: Deploy Staging (Web)
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - develop
+
+permissions:
+  contents: write
+
+jobs:
+  deploy-web-stg:
+    if: github.event.pull_request.merged == true && startsWith(github.head_ref, 'v') && endsWith(github.head_ref, '-stg-release')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: Create Placeholder Env Files
+        run: |
+          touch .env.stg
+          touch .env.prod
+
+      - name: Get Dependencies
+        run: flutter pub get
+
+      - name: Run Code Generation
+        run: dart run build_runner build
+
+      - name: Build Web for Staging
+        run: flutter build web --release --base-href "/flutter-starter-template/stg/"
+
+      - name: Deploy to GitHub Pages (Staging)
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build/web
+          destination_dir: stg
+          keep_files: true

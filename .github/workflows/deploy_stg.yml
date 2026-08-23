@@ -1,0 +1,86 @@
+name: Deploy Staging
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - develop
+
+jobs:
+  deploy-android-stg:
+    if: github.event.pull_request.merged == true && startsWith(github.head_ref, 'v') && endsWith(github.head_ref, '-stg-release')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+          bundler-cache: true
+          working-directory: android
+
+      - name: Create Service Account Key File
+        if: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON != '' }}
+        run: |
+          echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}" > "$GITHUB_WORKSPACE/firebase_credentials.json"
+
+      - name: Run Fastlane Android
+        env:
+          FIREBASE_APP_ID_ANDROID_STG: ${{ secrets.FIREBASE_APP_ID_ANDROID_STG }}
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+        run: |
+          if [ -f "$GITHUB_WORKSPACE/firebase_credentials.json" ]; then
+            export GOOGLE_APPLICATION_CREDENTIALS="$GITHUB_WORKSPACE/firebase_credentials.json"
+          fi
+          cd android
+          bundle exec fastlane distribute_stg
+
+  deploy-ios-stg:
+    if: github.event.pull_request.merged == true && startsWith(github.head_ref, 'v') && endsWith(github.head_ref, '-stg-release')
+    runs-on: macos-14
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+          bundler-cache: true
+          working-directory: ios
+
+      - name: Create Service Account Key File
+        if: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON != '' }}
+        run: |
+          echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}" > "$GITHUB_WORKSPACE/firebase_credentials.json"
+
+      - name: Run Fastlane iOS
+        env:
+          FIREBASE_APP_ID_IOS_STG: ${{ secrets.FIREBASE_APP_ID_IOS_STG }}
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+        run: |
+          if [ -f "$GITHUB_WORKSPACE/firebase_credentials.json" ]; then
+            export GOOGLE_APPLICATION_CREDENTIALS="$GITHUB_WORKSPACE/firebase_credentials.json"
+          fi
+          cd ios
+          bundle exec fastlane distribute_stg

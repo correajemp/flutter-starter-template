@@ -1,0 +1,45 @@
+name: Deploy Production (Web)
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  deploy-web-prod:
+    if: github.event.pull_request.merged == true && startsWith(github.head_ref, 'v') && endsWith(github.head_ref, '-prod-release')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: Create Placeholder Env Files
+        run: |
+          touch .env.stg
+          touch .env.prod
+
+      - name: Get Dependencies
+        run: flutter pub get
+
+      - name: Run Code Generation
+        run: dart run build_runner build
+
+      - name: Build Web for Production
+        run: flutter build web --release --base-href "/flutter-starter-template/"
+
+      - name: Deploy to GitHub Pages (Production)
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build/web
+          keep_files: true

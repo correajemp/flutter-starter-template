@@ -1,0 +1,37 @@
+default_platform(:android)
+
+platform :android do
+  desc "Submit a new Staging Build to Firebase App Distribution"
+  lane :distribute_stg do
+    # Build Flutter APK
+    # Fastlane runs inside android/ directory, so we need to run flutter from the root
+    Dir.chdir("../") do
+      sh("flutter build apk --flavor stg --dart-define=ENV=stg")
+    end
+
+    # Upload to Firebase App Distribution
+    # The apk path is relative to the directory where fastlane is executed (android/)
+    firebase_app_distribution(
+      app: ENV["FIREBASE_APP_ID_ANDROID_STG"],
+      apk_path: "../build/app/outputs/flutter-apk/app-stg-release.apk",
+      release_notes: "New staging build from Fastlane",
+      groups: "testers"
+    )
+  end
+
+  desc "Submit a new Production Build to Firebase App Distribution"
+  lane :distribute_prod do
+    # Build Flutter APK
+    Dir.chdir("../") do
+      sh("flutter build apk --flavor prod --dart-define=ENV=prod")
+    end
+
+    # Upload to Firebase App Distribution
+    firebase_app_distribution(
+      app: ENV["FIREBASE_APP_ID_ANDROID_PROD"],
+      apk_path: "../build/app/outputs/flutter-apk/app-prod-release.apk",
+      release_notes: "New production build from Fastlane",
+      groups: "testers"
+    )
+  end
+end
