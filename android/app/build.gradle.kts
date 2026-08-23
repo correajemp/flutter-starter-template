@@ -9,6 +9,10 @@ android {
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
+    buildFeatures {
+        resValues = true
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -27,6 +31,22 @@ android {
         // flag during build.
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+
+        resValue("string", "app_name", "Flutter Starter Template")
+    }
+
+    flavorDimensions += "default"
+
+    productFlavors {
+        create("stg") {
+            dimension = "default"
+            applicationIdSuffix = ".stg"
+            resValue("string", "app_name", "Flutter Starter Template (Stg)")
+        }
+        create("prod") {
+            dimension = "default"
+            resValue("string", "app_name", "Flutter Starter Template")
+        }
     }
 
     buildTypes {
