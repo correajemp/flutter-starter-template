@@ -30,9 +30,11 @@ jobs:
           mkdir -p lib/core/firebase
           echo "$FIREBASE_OPTIONS_DART" > lib/core/firebase/firebase_options.dart
 
-      - name: Create Placeholder Env Files
+      - name: Create Env Files
+        env:
+          ENV_STG: ${{ secrets.ENV_STG }}
         run: |
-          touch .env.stg
+          echo "$ENV_STG" > .env.stg
           touch .env.prod
 
       - name: Get Dependencies
