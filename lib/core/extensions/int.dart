@@ -1,0 +1,1 @@
+extension IntX on int {}
