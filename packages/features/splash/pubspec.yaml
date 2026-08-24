@@ -1,0 +1,25 @@
+name: splash
+description: A new Flutter package for the Splash feature.
+version: 1.0.0
+publish_to: "none"
+
+environment:
+  sdk: ^3.13.1
+
+resolution: workspace
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Local Packages
+  core:
+    path: ../../core
+  shared:
+    path: ../../shared
+
+  # State Management
+  flutter_riverpod: ^2.6.1
+
+dev_dependencies:
+  flutter_lints: ^6.0.0
