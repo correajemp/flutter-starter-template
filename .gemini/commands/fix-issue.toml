@@ -1,0 +1,8 @@
+description = "Fetches issue details and proposes an iterative implementation and test-driven fix."
+prompt = """
+You are tasked with fixing issue: {{args}}.
+Please follow this repeatable workflow:
+1. Fetch issue details from JIRA/GitHub (if credentials/APIs are available) or analyze the provided context.
+2. Locate potential source files related to the issue.
+3. Propose an iterative implementation and test-driven fix.
+"""

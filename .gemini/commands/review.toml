@@ -1,0 +1,12 @@
+description = "Runs the review workflow (static analysis, unit tests, and changed file sanity checks)."
+prompt = """
+Please execute the following repeatable review workflow:
+1. Run linter/static analysis on modified files.
+2. Run unit tests to ensure no regressions.
+3. Perform a sanity check on changed files.
+
+Here is the current git status for context:
+```
+!{git status}
+```
+"""
