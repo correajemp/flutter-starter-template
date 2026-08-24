@@ -1,0 +1,38 @@
+default_platform(:ios)
+
+platform :ios do
+  desc "Submit a new Staging Build to Firebase App Distribution"
+  lane :distribute_stg do
+    # Build Flutter IPA
+    # Fastlane runs inside ios/ directory, so we need to run flutter from the root
+    Dir.chdir("../") do
+      sh("flutter build ipa --flavor stg --dart-define=ENV=stg --export-method ad-hoc --no-codesign")
+    end
+
+    # Upload to Firebase App Distribution (skipped because --no-codesign doesn't generate an .ipa)
+    # ipa_file = Dir["../build/ios/ipa/*.ipa"].first
+
+    # firebase_app_distribution(
+    #   app: ENV["FIREBASE_APP_ID_IOS_STG"],
+    #   ipa_path: ipa_file,
+    #   release_notes_file: "../change_logs.txt",
+    # )
+  end
+
+  desc "Submit a new Production Build to Firebase App Distribution"
+  lane :distribute_prod do
+    # Build Flutter IPA
+    Dir.chdir("../") do
+      sh("flutter build ipa --flavor prod --dart-define=ENV=prod --export-method ad-hoc --no-codesign")
+    end
+
+    # Upload to Firebase App Distribution (skipped because --no-codesign doesn't generate an .ipa)
+    # ipa_file = Dir["../build/ios/ipa/*.ipa"].first
+
+    # firebase_app_distribution(
+    #   app: ENV["FIREBASE_APP_ID_IOS_PROD"],
+    #   ipa_path: ipa_file,
+    #   release_notes_file: "../change_logs.txt",
+    # )
+  end
+end

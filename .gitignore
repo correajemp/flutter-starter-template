@@ -188,3 +188,11 @@ ios/*.ipa
 android/app/agconnect-services.json
 android/keystore.properties
 android/*.keystore
+
+# Fastlane
+**/fastlane/report.xml
+**/fastlane/Preview.html
+**/fastlane/screenshots
+**/fastlane/test_output
+.bundle/
+vendor/bundle/
