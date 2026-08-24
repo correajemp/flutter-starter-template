@@ -1,3 +1,6 @@
+import 'package:config/env/env.dart';
+import 'package:core/firebase/firebase_options.dart';
+import 'package:core/storage/storage_providers.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
@@ -5,9 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_starter_template/app.dart';
-import 'package:flutter_starter_template/config/env/env.dart';
-import 'package:flutter_starter_template/core/firebase/firebase_options.dart';
-import 'package:flutter_starter_template/core/storage/storage_providers.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

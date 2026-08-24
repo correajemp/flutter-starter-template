@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow_shell_commands": true,
+    "allow_file_writes": true
+  },
+  "model": "claude-3-5-sonnet",
+  "hooks": {
+    "pre-tool": ".claude/hooks/validate-bash.sh"
+  }
+}

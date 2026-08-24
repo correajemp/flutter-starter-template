@@ -27,8 +27,8 @@ jobs:
         env:
           FIREBASE_OPTIONS_DART: ${{ secrets.FIREBASE_OPTIONS_DART }}
         run: |
-          mkdir -p lib/core/firebase
-          echo "$FIREBASE_OPTIONS_DART" > lib/core/firebase/firebase_options.dart
+          mkdir -p packages/core/lib/firebase
+          echo "$FIREBASE_OPTIONS_DART" > packages/core/lib/firebase/firebase_options.dart
 
       - name: Create Env Files
         env:

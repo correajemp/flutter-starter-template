@@ -1,11 +1,11 @@
+import 'package:config/locale/locale_notifier.dart';
+import 'package:config/theme/theme_notifier.dart';
+import 'package:core/routing/app_router.dart';
+import 'package:core/theme/app_theme.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_starter_template/config/locale/locale_notifier.dart';
-import 'package:flutter_starter_template/config/theme/theme_notifier.dart';
-import 'package:flutter_starter_template/core/routing/app_router.dart';
-import 'package:flutter_starter_template/core/theme/app_theme.dart';
 
 class AppScrollBehavior extends MaterialScrollBehavior {
   const AppScrollBehavior();

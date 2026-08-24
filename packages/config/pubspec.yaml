@@ -1,0 +1,31 @@
+name: config
+description: "Config package"
+version: 1.0.0
+publish_to: "none"
+resolution: workspace
+
+environment:
+  sdk: ^3.13.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Local Packages
+  core:
+    path: ../core
+
+  # Configuration
+  flutter_dotenv: ^6.0.1
+
+  # State Management
+  flutter_riverpod: ^2.6.1
+
+  # Utilities
+  collection: ^1.19.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^6.0.0

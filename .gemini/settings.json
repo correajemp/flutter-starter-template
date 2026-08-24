@@ -1,0 +1,22 @@
+{
+  "general": {
+    "defaultApprovalMode": "default"
+  },
+  "model": {
+    "name": "gemini-3-pro-preview"
+  },
+  "hooks": {
+    "BeforeTool": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "name": "validate-bash",
+            "type": "command",
+            "command": "$GEMINI_PROJECT_DIR/.gemini/hooks/validate-bash.sh"
+          }
+        ]
+      }
+    ]
+  }
+}

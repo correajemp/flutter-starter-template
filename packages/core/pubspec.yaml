@@ -1,0 +1,48 @@
+name: core
+description: "Core package"
+version: 1.0.0
+publish_to: "none"
+
+environment:
+  sdk: ^3.13.1
+
+resolution: workspace
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Local Packages
+  config:
+    path: ../config
+  auth:
+    path: ../features/auth
+  showcase:
+    path: ../features/showcase
+  splash:
+    path: ../features/splash
+  shared:
+    path: ../shared
+
+  # State Management
+  flutter_riverpod: ^2.6.1
+
+  # Routing
+  go_router: ^17.1.0
+
+  # Networking
+  dio: ^5.8.0+1
+
+  # Local Storage
+  flutter_secure_storage: ^10.0.0
+  shared_preferences: ^2.5.1
+
+  # Utilities
+  crypto: ^3.0.7
+  logger: ^2.7.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^6.0.0

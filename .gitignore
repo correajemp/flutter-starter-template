@@ -176,7 +176,7 @@ app.*.symbols
 android/app/google-services.json
 firebase.json
 ios/Runner/GoogleService-Info.plist
-lib/core/firebase/firebase_options.dart
+packages/core/lib/firebase/firebase_options.dart
 .env.stg
 .env.prod
 android/app/.cxx
